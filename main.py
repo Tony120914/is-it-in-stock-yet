@@ -2,7 +2,7 @@ import os
 import requests
 from bs4 import BeautifulSoup
 from threading import Timer
-import canyonBicycles
+import stores.canyonBicycles as canyonBicycles
 
 '''
     Repeatly checks the online store for stock every interval.
@@ -11,8 +11,8 @@ def repeat(url, headers, store, interval):
     timer = Timer(interval, repeat, (url, headers, store, interval))
     timer.start()
 
-    request = requests.get(url, headers=headers)
-    soup = BeautifulSoup(request.text, features='html.parser')
+    response = requests.get(url, headers=headers)
+    soup = BeautifulSoup(response.text, features='html.parser')
     store.check(soup)
 
 def main():

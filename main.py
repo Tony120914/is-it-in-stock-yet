@@ -22,3 +22,5 @@ def main():
     interval = float(os.environ.get('INTERVAL'))
     
     repeat(url, headers, store, interval)
+
+main()

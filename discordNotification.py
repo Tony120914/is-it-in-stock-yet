@@ -3,6 +3,7 @@ import requests
 
 discordBotToken = os.environ.get('DISCORD_BOT_TOKEN')
 headers = {
+    'User-Agent': 'DiscordBot (https://discord.com/, 1.0)',
     'Content-Type': 'application/json',
     'Authorization': f'Bot {discordBotToken}',
     }

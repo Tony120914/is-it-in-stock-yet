@@ -9,3 +9,6 @@ def check(soup):
         url = os.environ.get('URL')
         message = f'THE BIKE IS IN STOCK\n{url}\n(If I\'m still spamming and Tony isn\'t available to stop me, right click me on the sidebar and mute me for now.)'
         discordNotification.dmNotify(message)
+    else:
+        discordNotification.dmNotify('test') # REMOVE THIS LATER
+        

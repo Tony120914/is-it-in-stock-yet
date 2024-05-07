@@ -15,7 +15,7 @@ def repeat(url, headers, store, interval):
     soup = BeautifulSoup(request.text, features='html.parser')
     store.check(soup)
 
-if __name__ == '__main__':
+def main():
     url = os.environ.get('URL')
     headers = {'User-Agent': os.environ.get('USER_AGENT')}
     store = eval(os.environ.get('STORE'))

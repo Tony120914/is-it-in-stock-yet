@@ -38,7 +38,7 @@ def keepInstanceAwake():
 
 
 def main():
-    url = os.environ.get('URL')
+    url = os.environ.get('ITEM_URL')
     headers = {'User-Agent': os.environ.get('USER_AGENT')}
     store = eval(os.environ.get('STORE'))
     interval = float(os.environ.get('INTERVAL'))

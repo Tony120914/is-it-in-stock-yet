@@ -1,48 +1,40 @@
 import os
+import importlib
 import requests
 from bs4 import BeautifulSoup
 from threading import Timer
-import stores.canyonBicycles as canyonBicycles
 
 '''
     Repeatly checks the online store for stock every interval.
 '''
-def repeat(url, headers, store, interval):
-    timer = Timer(interval, repeat, (url, headers, store, interval))
+def repeat(store, url, interval, headers, notifMethod):
+    timer = Timer(interval, repeat, (store, url, interval, headers, notifMethod))
     timer.start()
 
-    keepInstanceAwake()
     timeout = 5
     try:
         response = requests.get(url, headers=headers, timeout=timeout)
         soup = BeautifulSoup(response.text, features='html.parser')
-        store.check(soup)
-    except:
-        print(f'Store check failed by hanging after {timeout} seconds or incorrectly parsed')
-
-    
-        
-
-'''
-    Keep free tier instance awake by periodically calling this function
-'''
-def keepInstanceAwake():
-    url = os.environ.get('RENDER_URL')
-    headers = {'User-Agent': os.environ.get('USER_AGENT')}
-    timeout = 5
-    try:
-        response = requests.get(url, headers=headers, timeout=timeout)
-        print(f'This instance\'s status code: {response.status_code}')
-    except:
-        print(f'Host server hung after {timeout} seconds')
-
+        inStock = store.check(soup)
+        if (inStock):
+            message = f'THE ITEM IS IN STOCK!\n{url}'
+            notifMethod.notify(message)
+            timer.cancel()
+    except requests.exceptions.RequestException as e:
+        print(f'Store check failed:\n{e}')
 
 def main():
+    storeModule = importlib.import_module(f"stores.{os.environ.get('STORE')}")
+    store = getattr(storeModule, os.environ.get('STORE'))
+    store = store()
     url = os.environ.get('ITEM_URL')
-    headers = {'User-Agent': os.environ.get('USER_AGENT')}
-    store = eval(os.environ.get('STORE'))
     interval = float(os.environ.get('INTERVAL'))
+    headers = {'User-Agent': os.environ.get('USER_AGENT')}
+    notifMethodModule = importlib.import_module(f"notificationMethods.{os.environ.get('NOTIFICATION_METHOD')}")
+    notifMethod = getattr(notifMethodModule, os.environ.get('NOTIFICATION_METHOD'))
+    notifMethod = notifMethod()
     
-    repeat(url, headers, store, interval)
+    repeat(store, url, interval, headers, notifMethod)
 
-main()
+if __name__ == "__main__":
+    main()

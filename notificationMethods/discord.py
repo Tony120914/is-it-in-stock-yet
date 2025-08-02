@@ -17,7 +17,7 @@ class discord(notificationMethod):
     def _getDmChannel(self):
         url = f'https://discord.com/api/v10/users/@me/channels'
         json = {'recipient_id': self.userId}
-        timeout = 5
+        timeout = 10
         try:
             response = requests.post(url, headers=self.headers, json=json, timeout=timeout)
         except requests.exceptions.RequestException as e:
@@ -29,7 +29,7 @@ class discord(notificationMethod):
         channelId = self._getDmChannel()
         url = f'https://discord.com/api/v10/channels/{channelId}/messages'
         json = {'content': message}
-        timeout = 5
+        timeout = 10
         try:
             response = requests.post(url, headers=self.headers, json=json, timeout=timeout)
         except requests.exceptions.RequestException as e:

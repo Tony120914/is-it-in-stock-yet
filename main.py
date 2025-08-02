@@ -11,7 +11,7 @@ def repeat(store, url, interval, headers, notifMethod):
     timer = Timer(interval, repeat, (store, url, interval, headers, notifMethod))
     timer.start()
 
-    timeout = 5
+    timeout = 10
     try:
         response = requests.get(url, headers=headers, timeout=timeout)
         soup = BeautifulSoup(response.text, features='html.parser')

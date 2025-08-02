@@ -1,6 +1,6 @@
 from .store import store
 
-class bestBuy(store):
+class bestBuyCA(store):
 
     def check(self, soup):
         productDetails = soup.find(id='PRODUCT_AND_MOBILE_DETAILS_ID')

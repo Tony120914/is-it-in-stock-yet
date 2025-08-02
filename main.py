@@ -28,10 +28,10 @@ def main():
     store = getattr(storeModule, os.environ.get('STORE'))
     store = store()
     url = os.environ.get('ITEM_URL')
-    interval = float(os.environ.get('INTERVAL'))
+    interval = float(os.environ.get('INTERVAL') or 60)
     headers = {'User-Agent': os.environ.get('USER_AGENT')}
-    notifMethodModule = importlib.import_module(f"notificationMethods.{os.environ.get('NOTIFICATION_METHOD')}")
-    notifMethod = getattr(notifMethodModule, os.environ.get('NOTIFICATION_METHOD'))
+    notifMethodModule = importlib.import_module(f"notificationMethods.{os.environ.get('NOTIFICATION_METHOD') or 'alert'}")
+    notifMethod = getattr(notifMethodModule, os.environ.get('NOTIFICATION_METHOD') or 'alert')
     notifMethod = notifMethod()
     
     repeat(store, url, interval, headers, notifMethod)

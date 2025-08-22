@@ -1,10 +1,11 @@
-import os
 import importlib
+import os
 import requests
 from bs4 import BeautifulSoup
-from threading import Timer
-from stores.store import store
+from dotenv import load_dotenv
 from notificationMethods.notificationMethod import notificationMethod
+from stores.store import store
+from threading import Timer
 
 '''
     Repeatly checks the online store for stock every interval.
@@ -26,14 +27,14 @@ def repeat(interval: float, itemUrl: str, headers: dict[str, str], store: store,
         print(f'Store check failed:\n{e}')
 
 def main():
+    load_dotenv()
     interval = float(os.environ.get('INTERVAL') or 60)
     notifMethodName = os.environ.get('NOTIFICATION_METHOD') or 'alert'
     try:
-        itemUrl = os.environ.get('ITEM_URL') or ''
-        storeName = os.environ.get('STORE') or ''
-        userAgent = os.environ.get('USER_AGENT') or ''
-        if (not all((itemUrl, storeName, userAgent))): raise NameError('At least one required .env variable is missing')
-    except NameError as e:
+        itemUrl = os.environ['ITEM_URL']
+        storeName = os.environ['STORE']
+        userAgent = os.environ['USER_AGENT']
+    except Exception as e:
         print(f'.env file is not populated correctly, refer to .env.template:\n{e}')
         return
 

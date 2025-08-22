@@ -17,12 +17,14 @@ This program can automatically check for you and alert you when it is in stock!
 ## Installation and Guide
 1. `pip install -r requirements.txt`
 2. Create a `.env` file matching the structure of `.env.template`
+3. Run `main.py` or `python main.py` in a terminal
+
 ### For Devs
-3. Setting up a new store:
+4. Setting up a new store:
     1. In the `/stores` folder, create a new `<storeName>.py` 
     2. Inherit the `store` abstract class from `store.py`
     3. Code!
-4. Setting up a new notification method:
+5. Setting up a new notification method:
     1. In the `/notificationMethods` folder, create a new `<notificationMethodName>.py` 
     2. Inherit the `notificationMethod` abstract class from `notificationMethod.py`
     3. Code!

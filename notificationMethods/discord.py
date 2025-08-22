@@ -6,8 +6,13 @@ class discord(notificationMethod):
 
     def __init__(self):
         super().__init__()
-        self.discordBotToken = os.environ.get('DISCORD_BOT_TOKEN')
-        self.userId = os.environ.get('DISCORD_USER_ID')
+        try:
+            self.discordBotToken = os.environ['DISCORD_BOT_TOKEN']
+            self.userId = os.environ['DISCORD_USER_ID']
+        except Exception as e:
+            print(f'.env file is not populated correctly, refer to .env.template:\n{e}')
+            return
+        
         self.headers = {
             'User-Agent': 'DiscordBot (https://discord.com/, 1.0)',
             'Content-Type': 'application/json',

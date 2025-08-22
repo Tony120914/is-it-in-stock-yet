@@ -22,15 +22,17 @@ class discord(notificationMethod):
             response = requests.post(url, headers=self.headers, json=json, timeout=timeout)
         except requests.exceptions.RequestException as e:
             print(f'Discord fetch DM channel failed:\n{e}')
+            return
         channel = response.json()
         return channel['id']
 
-    def notify(self, message):
+    def notify(self, message: str):
         channelId = self._getDmChannel()
         url = f'https://discord.com/api/v10/channels/{channelId}/messages'
         json = {'content': message}
         timeout = 10
         try:
-            response = requests.post(url, headers=self.headers, json=json, timeout=timeout)
+            requests.post(url, headers=self.headers, json=json, timeout=timeout)
         except requests.exceptions.RequestException as e:
             print(f'Discord DM notification failed:\n{e}')
+            return

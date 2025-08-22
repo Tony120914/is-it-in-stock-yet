@@ -1,9 +1,11 @@
 from .store import store
+from bs4 import BeautifulSoup
 
 class bestBuyCA(store):
 
-    def check(self, soup):
+    def check(self, soup: BeautifulSoup) -> bool:
         productDetails = soup.find(id='PRODUCT_AND_MOBILE_DETAILS_ID')
+        if (not productDetails): return False
         innerText = productDetails.getText().lower()
         isAvailable = 'sold out' not in innerText
         print(f"In stock?: {isAvailable}", flush=True)
